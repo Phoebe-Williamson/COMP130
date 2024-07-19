@@ -94,25 +94,59 @@ values = [76, 237, 20, 560, 924, 351, 561, 133, 102, 147, 415, 126, 121, 780, 17
 numbers_dictionary = create_dictionary(values)
 for key in sorted(numbers_dictionary.keys()):
     print(key, numbers_dictionary[key])
-'''
+
 #Q9
-def print_table(column_width):
-    value = "Month Days"
-    print(f"{value:>{column_width}}")
+def print_table(days_per_month, column_width=15):
+    print(f"{'Month Days':>{column_width + 5}}")
+    print("-" * column_width + "-----")
+    for month, days in days_per_month.items():
+        print(f"{month:>{column_width}} {days}")
 
+days_per_month = {
+    'January': 31,
+    'February': 28,
+    'March': 31,
+    'April': 30,
+    'May': 31,
+    'June': 30,
+    'July': 31,
+    'August': 31,
+    'September': 30,
+    'October': 31,
+    'November': 30,
+    'December': 31
+}
+print_table(days_per_month)	
+print_table(days_per_month, 20)
 
-print_table(20)
+#Q10
 
+#Q11
+integer = int(input("Enter an integer between 1 and 9: "))
+while (integer < 1) or (integer > 9):
+    integer = int(input("Enter an integer between 1 and 9: "))
+print("EVEN" if integer %2 == 0 else "ODD")
+'''
+#Q12
+def create_words_list(word):
+    return[word[i:] for i in range(len(word))]
 
+word = create_words_list('case')
+print(word)
+print(create_words_list('cat'))
+'''
+#Q13
+def get_sum_last_digits(usernames):
+    x=0
+    for name in usernames:
+        x += int(name[-1])
+    return x
 
-
-
-
-
-
-
-
-
+names = ['abal412', 'oabc399', 'oyi001']
+print(get_sum_last_digits(names))
+data = ['Akim161', 'mgra734', 'dng004', 'bcar035']
+print(get_sum_last_digits(data))
+'''
 
 
 
