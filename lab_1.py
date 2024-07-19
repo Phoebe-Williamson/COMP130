@@ -24,37 +24,84 @@ equal_signs = "=" * length
 print(f"{equal_signs}\n{inital}. {last}\n{equal_signs}")
 
 #Q4
-import math
 def get_largest_prime_factor(number):
     primes = [2, 3, 5, 7, 11, 13, 17, 19]
-    largest_prime = 0
-    for numbers in primes:
-        print(numbers)
-        if number/numbers == round(number/numbers):
-            largest_prime = number/numbers
-    return largest_prime
+    #largest_prime = 0
+    for i in range(len(primes) -1, -1, -1):
+        if number%primes[i] == 0:
+            largest_prime = primes[i]
+            return largest_prime
 
 print(get_largest_prime_factor(55))
 print(get_largest_prime_factor(42))
-'''
+
 #Q5
 def square_odds(numbers_list):
-    for number in numbers_list:
-        if number %2 != 0:
-            numbers_list[number] = number^2
+    for i in range(len(numbers_list) -1, -1, -1):
+        if numbers_list[i] %2 != 0:
+            new_value = numbers_list[i]**2
+            numbers_list[i] = new_value
 
 numbers_list = [1, 5, 12, 6, 7]
 print(numbers_list)
 square_odds(numbers_list)
 print(numbers_list)
 
+#Q7
+def read_school_census_data(filename):
+    input_file = open(filename, 'r')
+    lines = input_file.read().split("\n")
+    input_file.close()
+    tuple_list = []
+    for line in lines:
+        values = line.split(",")
+        eye = values[0]
+        height = int(values[1])
+        left = int(values[2])
+        right = int(values[3])
+        new_tuple = eye, height, left, right
+        tuple_list.append(new_tuple)
+    return tuple_list
+    
+data = read_school_census_data('data.txt')
+print(data)
+print(type(data))
+print(type(data[0][0]), type(data[0][1]), type(data[0][2]), type(data[0][3]))
+
+#Q8
+def create_dictionary(numbers):
+    new_dict = {}
+    primes = [2, 3, 5, 7, 11, 13, 17, 19]
+    for number in numbers:
+        smallest_prime = get_smallest_prime_factor(number)
+        if smallest_prime in new_dict:
+            new_dict[smallest_prime].append(number)
+        else:
+            new_dict[smallest_prime] = [number]
+    return new_dict
+
+def get_smallest_prime_factor(number):
+    prime_numbers = [2, 3, 5, 7, 11, 13, 17, 19]
+    for prime_number in prime_numbers:
+        if number % prime_number == 0:
+            return prime_number
+    return -1
+
+numbers_dictionary = create_dictionary([76, 237, 20, 560, 924])
+for key in sorted(numbers_dictionary.keys()):
+    print(key, numbers_dictionary[key])
+values = [76, 237, 20, 560, 924, 351, 561, 133, 102, 147, 415, 126, 121, 780, 17, 1273, 64, 12]
+numbers_dictionary = create_dictionary(values)
+for key in sorted(numbers_dictionary.keys()):
+    print(key, numbers_dictionary[key])
+'''
+#Q9
+def print_table(column_width):
+    value = "Month Days"
+    print(f"{value:>{column_width}}")
 
 
-
-
-
-
-
+print_table(20)
 
 
 
