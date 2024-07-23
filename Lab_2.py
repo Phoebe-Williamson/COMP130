@@ -76,25 +76,95 @@ data_dict = {'Auckland': [16.2, 16.6, 14.2, 12.2, 10.8, 8.2, 7.2, 8.2, 9.2, 11]}
 merge_data(regions_dict, data_dict)
 for key in sorted(regions_dict):
     print(key, regions_dict[key])
-'''
+
 #Q6
 def print_title():
     banner = "Average Rainfall, temperature and sunshine data for selected locations throughout NZ"
     print(f"{banner}\n" + "=" * len(banner))
+ 
+#Q7
+def print_table(regions_dict, column_names):
+    text = "Name"
+    print(f"{text:>16}", end="|")
+    for column in column_names:
+        print(f"{column:>16}", end="|")
+    print()
+    for key in sorted(regions_dict):
+        print(f"{key:>16}", end="|")
+        numbers = regions_dict[key]
+        rain = round(numbers[0], 2)
+        temp = round(numbers[1], 2)
+        print(f"{rain:>16}", end="|")
+        print(f"{temp:>16}", end="|")
+        print()
 
+regions_dict = {'Kaitaia': [110.0, 11.766666666666666], 'Auckland': [93.24166666666667, 12.058333333333335], 'Tauranga': [100.125, 10.841666666666667]}
+print_table(regions_dict, ['Rainfall(mm)', 'Min.Temperature'])
+'''
+def main():
+    #Complete the main() function 
+    print_title()
+    regions_filename = input("Enter a filename for reading regions: ")
+    regions_list = read_file(regions_filename)
+    regions_dict = create_regions_dictionary(regions_list)
+    rainfall_filename = input("Enter a filename for reading rainfall data: ")
+    rainfall_dict = create_dictionary(rainfall_filename)
+    merge_data(regions_dict, rainfall_dict)
+    min_temp_filename = input("Enter a filename for reading minimum temperature data: ")
+    min_temp_dict = create_dictionary(min_temp_filename)
+    merge_data(regions_dict, min_temp_dict)
+    max_temp_filename = input("Enter a filename for reading maximum temperature data: ")
+    max_temp_dict = create_dictionary(max_temp_filename)
+    merge_data(regions_dict, max_temp_dict)
+    sunshine_filename = input("Enter a filename for reading sunshine data: ")
+    sunshine_dict = create_dictionary(sunshine_filename)
+    merge_data(regions_dict, sunshine_dict)
+    print_table(regions_dict, ['Rainfall(mm)', 'Min.Temperature', 'Max.Temperature', 'Sunshine(hr)'])
+        
+#Copy all your functions in here
+def print_title():
+    banner = "Average Rainfall, temperature and sunshine data for selected locations throughout NZ"
+    print(f"{banner}\n" + "=" * len(banner))
 
+def read_file(filename):
+    input_file = open(filename, 'r')
+    lines = input_file.read().split("\n")
+    input_file.close()
+    return lines
 
+def create_regions_dictionary(regions_list):
+    new_dict = {}
+    for region in regions_list:
+        new_dict[region] = []
+    return new_dict
 
+def create_dictionary(filename):
+    f = open(filename, 'r')
+    d = {}
+    content = f.read().split('\n')
+    for line in content:
+        name, num = line.split(":")
+        numbers = num.split(',')
+        d[name] = [float(x) for x in numbers]
+    return d
 
-
-
-
-
-
-
-
-
-
+def merge_data(regions_dict, data_dict):
+    for region in data_dict:
+        average = sum(data_dict[region])/len(data_dict[region])
+        regions_dict[region].append(round(average, 2))
+    
+    
+def print_table(regions_dict, column_names):
+    text = "Name"
+    print(f"{text:>16}", end="|")
+    for column in column_names:
+        print(f"{column:>16}", end="|")
+    print()
+    for region, columns in sorted(regions_dict.items()):
+        print(f"{region:>16}", end="|")
+        for column_name in columns:
+            print(f"{column_name:>16.2f}", end="|")
+        print()
 
 
 
