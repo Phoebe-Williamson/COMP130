@@ -53,45 +53,85 @@ class GameBoard:
         def count_points(count, points):
             while count >= 4:
                 points += 1
-                count -= 4
+                count -= 2
             return points
         
-        def left_to_right_horiz():
-            count_horiz_l_to_r = 1
+        def horizontal():
+            count = 1
             try:
                 #check left side
                 for col in range(column -1, -1, -1):
                     if self.items[col][row] == player:
-                        count_horiz_l_to_r += 1
+                        count += 1
                     else:
                         break
                 
                 # check right side
                 for col in range(column + 1, self.size):
                     if self.items[col][row] == player:
-                        count_horiz_l_to_r += 1
+                        count += 1
                     else: break
             except IndexError:
                  pass
-            return count_horiz_l_to_r
+            return count
              
-        def top_to_bottom_vert():
-            count_vert = 1
+        def vertical():
+            count = 1
             try:
                 for new_row in range(row + 1, self.size):
                     if self.items[column][new_row] == player:
-                        count_vert += 1
+                        count += 1
                     else:
                         break
             except IndexError:
                 pass
-            return count_vert
+            return count
              
-        left_to_right_points = left_to_right_horiz()
+             
+        def diagonals():
+            count1, count2 = 1, 1
+            try:
+                # bottom left to top right
+                new_row, new_col = row, column
+                while new_row <= self.size and new_col <= self.size:
+                    if self.items[new_col][new_row] == player:
+                        count1 += 1
+                    new_row += 1
+                    new_col += 1
+                # top left to bottom right
+                new_row, new_col = row, column
+                while new_row <= self.size and new_col <= self.size:
+                    if self.items[new_col][new_row] == player:
+                        count1 += 1
+                    new_row += 1
+                    new_col -= 1
+                # bottom right to top left
+                new_row, new_col = row, column
+                while new_row <= self.size and new_col <= self.size:
+                    if self.items[new_col][new_row] == player:
+                        count2 += 1
+                    new_row -= 1
+                    new_col += 1
+                # top right to bottom left
+                new_row, new_col = row, column
+                while new_row <= self.size and new_col <= self.size:
+                    if self.items[new_col][new_row] == player:
+                        count2 += 1
+                    new_row -= 1
+                    new_col -= 1
+            except IndexError:
+                pass
+            return count
+             
+             
+        left_to_right_points = horizontal()
         new_points += count_points(left_to_right_points, 0)
         
-        top_to_bottom_points = top_to_bottom_vert()
+        top_to_bottom_points = vertical()
         new_points += count_points(top_to_bottom_points, 0)
+        
+        diagonal_points = diagonals()
+        new_points += count_points(diagonal_points, 0)
         
         return new_points
         
